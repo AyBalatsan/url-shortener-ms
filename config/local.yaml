@@ -1,0 +1,10 @@
+env: "local"
+storage_path: "./storage.db"
+http_server:
+  address: "0.0.0.0:8082"
+  # время на запрос
+  timeout: 4s 
+  # время на коннект, то есть если от клиента прилетаю запросы соединение не сбрасывается и не создается новое
+  idle_timeout: 30s 
+  user: "balatsan"
+  password: "12345678"
