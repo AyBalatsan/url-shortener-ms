@@ -6,11 +6,10 @@ import (
 	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/joho/godotenv"
 )
 
 type Config struct {
-	Env         string `yaml:"env" env-default:"development"`
+	Env         string `yaml:"env" env-default:"local"`
 	StoragePath string `yaml:"storage_path" env-required:"true"`
 	HTTPServer  `yaml:"http_server"`
 }
@@ -23,24 +22,13 @@ type HTTPServer struct {
 	Password    string        `yaml:"password" env-required:"true" env:"HTTP_SERVER_PASSWORD"`
 }
 
-func LoadEnv() {
-	if _, err := os.Stat(".env"); err != nil {
-		log.Printf("fd to load .env file %s", err.Error())
-		return
-	}
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Printf("failed to load .env file %s", err.Error())
-	}
-}
-
 func MustLoad() *Config {
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH is not set")
 	}
 
-	// Проверяем существует ли такой файл
+	// check if file exists
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		log.Fatalf("config file does not exist: %s", configPath)
 	}
